@@ -37,6 +37,8 @@ We will send you an email to choose a Real-World project. If you face any diffic
   * Sprint Implementation (organizing work into milestones)
 * Provide your JIRA board URL in the project README.
 
+* https://beyondmedmx.atlassian.net/jira/software/projects/PM/boards/34/backlog?atlOrigin=eyJpIjoiYThmOTBhNDE2NjI5NDMwMThlY2I5YmVlMzUzZGY3NmIiLCJwIjoiaiJ9
+
 **3. Backend Development (Node.js + Express + MongoDB)**
 
 * Set up and configure the MongoDB database connection.
