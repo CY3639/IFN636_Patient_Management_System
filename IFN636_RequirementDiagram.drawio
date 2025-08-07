@@ -167,11 +167,22 @@
         <mxCell id="_4qBEY4-anrujqpdwUIn-41" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Patient Profile CRUD&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Manage patient profiles&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="355" y="1920" width="240" height="120" as="geometry" />
         </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-42" target="_4qBEY4-anrujqpdwUIn-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="785" y="1850" />
+              <mxPoint x="410" y="1850" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
         <mxCell id="_4qBEY4-anrujqpdwUIn-42" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Prescription CRUD&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Manage prescriptions&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="665" y="1920" width="240" height="120" as="geometry" />
         </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=circlePlus;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-43" target="_4qBEY4-anrujqpdwUIn-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="_4qBEY4-anrujqpdwUIn-43" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Pharmacy Profile CRUD&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Manage pharmacy profiles&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="957" y="1920" width="240" height="120" as="geometry" />
+          <mxGeometry x="970" y="1940" width="240" height="120" as="geometry" />
         </mxCell>
         <mxCell id="_4qBEY4-anrujqpdwUIn-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-47" target="_4qBEY4-anrujqpdwUIn-29">
           <mxGeometry relative="1" as="geometry" />
@@ -194,6 +205,37 @@
         </mxCell>
         <mxCell id="_4qBEY4-anrujqpdwUIn-48" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Session Termination&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R002&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Trigger session termination&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="761.5" y="1090" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.545;entryY=0.977;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=circlePlus;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-42" target="_4qBEY4-anrujqpdwUIn-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=circlePlus;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-56" target="_4qBEY4-anrujqpdwUIn-42">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="475" y="2130" />
+              <mxPoint x="785" y="2130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-56" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Prescription Creation&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Doctor creates prescription for specific patient&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="355" y="2170" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-57" target="_4qBEY4-anrujqpdwUIn-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-57" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Prescription Status Management&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Track prescription status: pending/ dispensed&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="665" y="2170" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="_4qBEY4-anrujqpdwUIn-58" target="_4qBEY4-anrujqpdwUIn-42">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="2130" />
+              <mxPoint x="785" y="2130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_4qBEY4-anrujqpdwUIn-58" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&amp;lt;&amp;lt;requirement&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;Dispensing Process&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;Id = &quot;R003&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px ; text-align: left&quot;&gt;text=&quot;Pharmacy marks prescription as dispensed&quot;&lt;/p&gt;" style="shape=rect;html=1;overflow=fill;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="950" y="2170" width="240" height="120" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
