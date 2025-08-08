@@ -7,7 +7,8 @@ const taskSchema = new mongoose.Schema({
     medicationStrength: { type: String, required: true },
     directionOfUse: { type: String , required: true },
     quantity: { type: Number, required: true },
-    repeats: { type: Number, required: true }
+    repeats: { type: Number, required: true },
+    isDispensed: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('Prescription', prescriptionSchema);
