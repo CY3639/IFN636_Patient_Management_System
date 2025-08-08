@@ -20,7 +20,7 @@ const addPrescription = async (req, res) => {
 };
 
 const updatePrescription = async (req, res) => {
-    const {prescriptionDate, medicationName, medicationStrength, directionOfUse, quantity, repeats, dispensed} = req.body;
+    const {prescriptionDate, medicationName, medicationStrength, directionOfUse, quantity, repeats, isDispensed} = req.body;
     try {
         const prescription = await Prescription.findById(req.params.id);
         if(!prescription) return res.status(404).json({ message: 'Prescription not found' });
@@ -31,7 +31,7 @@ const updatePrescription = async (req, res) => {
         prescription.directionOfUse = directionOfUse || prescription.directionOfUse;
         prescription.quantity = quantity || prescription.quantity;
         prescription.repeats = repeats || prescription.repeats;
-        prescription.dispensed = dispensed || prescription.dispensed;
+        prescription.isDispensed = isDispensed || prescription.isDispensed;
     
         const updatedPrescription = await prescription.save();
         res.json(updatedPrescription);
