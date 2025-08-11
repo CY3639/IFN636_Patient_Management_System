@@ -9,4 +9,9 @@ router.post('/login', loginUser);
 router.get('/profile', protect, getProfile);
 router.put('/profile', protect, updateUserProfile);
 
+router.get('/', protect, getPrescriptions);
+router.post('/', protect, addPrescription);
+router.put('/:id', protect, updatePrescription);
+router.delete('/:id', protect, deletePrescription);
+
 module.exports = router;

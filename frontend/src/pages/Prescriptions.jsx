@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Prescriptions = () => {
   const { user } = useAuth();
-  const [prescriptions, createPrescriptions] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
   const [editingPrescription, setEditingPrescription] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Prescriptions = () => {
         const response = await axiosInstance.get('/api/prescriptions', {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        createPrescriptions(response.data);
+        setPrescriptions(response.data);
       } catch (error) {
         alert('Failed to fetch prescriptions.');
       }
@@ -28,13 +28,13 @@ const Prescriptions = () => {
     <div className="container mx-auto p-6">
       <PrescriptionForm
         prescriptions={prescriptions}
-        createPrescriptions={createPrescriptions}
+        setPrescriptions={setPrescriptions}
         editingPrescription={editingPrescription}
         setEditingPrescription={setEditingPrescription}
       />
       <PrescriptionList 
         prescriptions={prescriptions}
-        createPrescriptions={createPrescriptions}
+        setPrescriptions={setPrescriptions}
         editingPrescription={editingPrescription}
         setEditingPrescription={setEditingPrescription} />
     </div>
