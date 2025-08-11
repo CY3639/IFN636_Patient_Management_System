@@ -16,7 +16,7 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-4 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              ePrescription & Medication Tracker
+              ePrescription & Medication Management
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
               Streamlining healthcare through digital prescription management
@@ -59,12 +59,10 @@ const Home = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-800">Doctors</h3>
             <p className="text-gray-600 mb-4">
-              Create and manage digital prescriptions. Track patient medication history and monitor treatment progress.
+              Create and manage digital prescriptions. 
             </p>
             <ul className="text-sm text-gray-500 space-y-1">
               <li>• Digital prescription creation</li>
-              <li>• Patient medication history</li>
-              <li>• Treatment monitoring</li>
             </ul>
           </div>
 
@@ -77,12 +75,10 @@ const Home = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-800">Patients</h3>
             <p className="text-gray-600 mb-4">
-              Access your prescriptions digitally. Track medication schedules and repeats reminders.
+              Access your prescriptions digitally via email.
             </p>
             <ul className="text-sm text-gray-500 space-y-1">
               <li>• Digital prescription access</li>
-              <li>• Medication reminders</li>
-              <li>• Repeats tracking</li>
             </ul>
           </div>
 
@@ -92,15 +88,13 @@ const Home = () => {
               <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
-            </div>
+            </div>  
             <h3 className="text-xl font-semibold mb-3 text-gray-800">Pharmacies</h3>
             <p className="text-gray-600 mb-4">
-              Receive and fulfill digital prescriptions. Manage inventory and patient consultation records.
+              <strong>Future Release</strong> - Receive and fulfill digital prescriptions. Manage inventory and patient consultation records.
             </p>
             <ul className="text-sm text-gray-500 space-y-1">
               <li>• Digital prescription dispensing</li>
-              <li>• Inventory management</li>
-              <li>• Patient consultation logs</li>
             </ul>
           </div>
         </div>
@@ -110,10 +104,11 @@ const Home = () => {
       <div className="bg-gray-100 py-16">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
-            How It Works
+            How It Works 
           </h2>
           
-          <div className="grid md:grid-cols-4 gap-6">
+          {/* change grid-cols-3 back to grid-cols-4 when Track & Monitor releases */}
+          <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 1
@@ -138,13 +133,14 @@ const Home = () => {
               <p className="text-sm text-gray-600">Pharmacy receives and processes the prescription</p>
             </div>
             
-            <div className="text-center">
+            {/* for future release */}
+            {/* <div className="text-center">
               <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 4
               </div>
               <h3 className="font-semibold mb-2">Track & Monitor</h3>
               <p className="text-sm text-gray-600">All parties track medication progress</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
