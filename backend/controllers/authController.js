@@ -44,7 +44,6 @@ const getProfile = async (req, res) => {
       res.status(200).json({
         name: user.name,
         email: user.email,
-        university: user.university,
         address: user.address,
       });
     } catch (error) {
@@ -57,17 +56,18 @@ const updateUserProfile = async (req, res) => {
         const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const { name, email, university, address } = req.body;
+        const { name, email, clinic, address } = req.body;
         user.name = name || user.name;
         user.email = email || user.email;
-        user.university = university || user.university;
         user.address = address || user.address;
 
         const updatedUser = await user.save();
-        res.json({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email, university: updatedUser.university, address: updatedUser.address, token: generateToken(updatedUser.id) });
+        res.json({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email, address: updatedUser.address, token: generateToken(updatedUser.id) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 module.exports = { registerUser, loginUser, updateUserProfile, getProfile };
