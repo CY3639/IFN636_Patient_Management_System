@@ -62,30 +62,35 @@ const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescript
       />
       <input
         type="text"
+        placeholder="Medication Strength"
         value={formData.medicationStrength}
         onChange={(e) => setFormData({ ...formData, medicationStrength: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
         type="text"
+        placeholder="Medication Form (e.g. tablet, capsule, suspension etc...)"
         value={formData.medicationForm}
         onChange={(e) => setFormData({ ...formData, medicationForm: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
         type="text"
+        placeholder="Direction of Use"
         value={formData.directionOfUse}
         onChange={(e) => setFormData({ ...formData, directionOfUse: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
         type="text"
+        placeholder="Quantity"
         value={formData.quantity}
         onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
         type="text"
+        placeholder="Repeats"
         value={formData.repeats}
         onChange={(e) => setFormData({ ...formData, repeats: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
