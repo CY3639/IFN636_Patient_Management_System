@@ -47,7 +47,7 @@ const deletePrescription = async (req, res) => {
         const prescription = await Prescription.findById(req.params.id);
         if (!prescription) return res.status(404).json({ message: 'Prescription not found' });
         
-        await prescription.remove();
+        await prescription.findByIdAndDelete(req.params.id);
         res.json({message: 'Prescription deleted'});
     } catch (error) {
         res.status(500).json({message: error.message});
