@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
-const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescription, setEditingPrescription }) => {
+const PrescriptionForm = ({ prescriptions, setPrescriptions, editingPrescription, setEditingPrescription }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionOfUse: '', quantity: '', repeats: '' });
 
@@ -29,12 +29,12 @@ const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescript
         const response = await axiosInstance.put(`/api/prescriptions/${editingPrescription._id}`, formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        createPrescriptions(prescriptions.map((prescription) => (prescription._id === response.data._id ? response.data : prescription)));
+        setPrescriptions(prescriptions.map((prescription) => (prescription._id === response.data._id ? response.data : prescription)));
       } else {
         const response = await axiosInstance.post('/api/prescriptions', formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        createPrescriptions([...prescriptions, response.data]);
+        setPrescriptions([...prescriptions, response.data]);
       }
       setEditingPrescription(null);
       setFormData({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionOfUse: '', quantity: '', repeats: '' });
