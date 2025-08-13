@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
-const PrescriptionList = ({ prescriptions, createPrescriptions, setEditingPrescription }) => {
+const PrescriptionList = ({ prescriptions, setPrescriptions, setEditingPrescription }) => {
   const { user } = useAuth();
 
   const handleDelete = async (prescriptionId) => {
@@ -9,7 +9,7 @@ const PrescriptionList = ({ prescriptions, createPrescriptions, setEditingPrescr
       await axiosInstance.delete(`/api/prescriptions/${prescriptionId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      createPrescriptions(prescriptions.filter((prescription) => prescription._id !== prescriptionId));
+      setPrescriptions(prescriptions.filter((prescription) => prescription._id !== prescriptionId));
     } catch (error) {
       alert('Failed to delete prescription.');
     }
