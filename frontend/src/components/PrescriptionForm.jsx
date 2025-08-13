@@ -4,7 +4,7 @@ import axiosInstance from '../axiosConfig';
 
 const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescription, setEditingPrescription }) => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionofUse: '', quantity: '', repeats: '' });
+  const [formData, setFormData] = useState({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionOfUse: '', quantity: '', repeats: '' });
 
   useEffect(() => {
     if (editingPrescription) {
@@ -18,7 +18,7 @@ const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescript
         repeats: editingPrescription.repeats,
       });
     } else {
-      setFormData({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', medicationFormdirectionofUse: '', quantity: '', repeats: '' });
+      setFormData({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionOfUse: '', quantity: '', repeats: '' });
     }
   }, [editingPrescription]);
 
@@ -37,7 +37,7 @@ const PrescriptionForm = ({ prescriptions, createPrescriptions, editingPrescript
         createPrescriptions([...prescriptions, response.data]);
       }
       setEditingPrescription(null);
-      setFormData({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionofUse: '', quantity: '', repeats: '' });
+      setFormData({ prescriptionDate: '', medicationName: '', medicationStrength: '', medicationForm: '', directionOfUse: '', quantity: '', repeats: '' });
     } catch (error) {
       alert('Failed to save prescription.');
     }
