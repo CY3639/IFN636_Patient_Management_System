@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 const Home = () => {
   const { user } = useAuth();
 
-  // If user is authenticated, redirect to dashboard (we'll create this later)
   if (user) {
     return <Dashboard />;
   }
@@ -100,7 +99,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* How It Works Section */}
       <div className="bg-gray-100 py-16">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
@@ -133,14 +131,6 @@ const Home = () => {
               <p className="text-sm text-gray-600">Pharmacy receives and processes the prescription</p>
             </div>
             
-            {/* for future release */}
-            {/* <div className="text-center">
-              <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                4
-              </div>
-              <h3 className="font-semibold mb-2">Track & Monitor</h3>
-              <p className="text-sm text-gray-600">All parties track medication progress</p>
-            </div> */}
           </div>
         </div>
       </div>
@@ -166,14 +156,14 @@ const Home = () => {
   );
 };
 
-// Temporary Dashboard component - we'll build this properly later
+
 const Dashboard = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
       <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6">
         <p className="font-bold">Welcome back!</p>
-        <p>Dashboard functionality will be implemented next. For now, you can access your profile and CRUD operations from the navigation.</p>
+        <p>Here you can access your profile and prescriptions from the navigation.</p>
       </div>
     </div>
   );
