@@ -16,29 +16,29 @@ const Prescriptions = () => {
   });
 
   useEffect(() => {
-    fetchPrescriptions();
-  }, [fetchPrescriptions]);
+    const fetchPrescriptions = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.get('/api/prescriptions', {
+          headers: { Authorization: Bearer `${user.token}` },
+        });
+        setPrescriptions(response.data);
 
-  const fetchPrescriptions = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get('/api/prescriptions', {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      setPrescriptions(response.data);
-      
-      const dispensed = response.data.filter(p => p.isDispensed).length;
-      setStats({
-        total: response.data.length,
-        dispensed: dispensed,
-        pending: response.data.length - dispensed
-      });
-    } catch (error) {
-      alert('Failed to fetch prescriptions.');
-    } finally {
-      setLoading(false);
-    }
-  }, [user.token]);
+        const dispensed = response.data.filter(p => p.isDispensed).length;
+        setStats({
+          total: response.data.length,
+          dispensed: dispensed,
+          pending: response.data.length - dispensed
+        });
+      } catch (error) {
+        alert('Failed to fetch prescriptions.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPrescriptions();
+  }, [user]);
 
   const handleFormSubmit = async (formData) => {
     try {
