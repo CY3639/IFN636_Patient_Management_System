@@ -21,8 +21,8 @@ const Home = () => {
               Streamlining healthcare through digital prescription management
             </p>
             <p className="text-lg mb-8 max-w-3xl mx-auto text-blue-50">
-              Connect doctors, patients, and pharmacies in a secure, efficient digital ecosystem 
-              for prescription tracking and medication management.
+              Connect doctors, pharmacies, and patients in an efficient digital ecosystem 
+              for prescription tracking and dispensing management.
             </p>
             <div className="space-x-4">
               <Link
@@ -74,10 +74,10 @@ const Home = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-800">Patients</h3>
             <p className="text-gray-600 mb-4">
-              Access your prescriptions digitally via email.
+              Access your prescriptions with local pharmacies.
             </p>
             <ul className="text-sm text-gray-500 space-y-1">
-              <li>• Digital prescription access</li>
+              <li>• Digital prescription access via pharmacy</li>
             </ul>
           </div>
 
@@ -90,7 +90,7 @@ const Home = () => {
             </div>  
             <h3 className="text-xl font-semibold mb-3 text-gray-800">Pharmacies</h3>
             <p className="text-gray-600 mb-4">
-              <strong>Future Release</strong> - Receive and fulfill digital prescriptions. Manage inventory and patient consultation records.
+              Receive and fulfill digital prescriptions.
             </p>
             <ul className="text-sm text-gray-500 space-y-1">
               <li>• Digital prescription dispensing</li>
@@ -119,8 +119,8 @@ const Home = () => {
               <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 2
               </div>
-              <h3 className="font-semibold mb-2">Patient Receives</h3>
-              <p className="text-sm text-gray-600">Patient gets instant access to prescription</p>
+              <h3 className="font-semibold mb-2">Patient Access</h3>
+              <p className="text-sm text-gray-600">Patient requests local pharmacy to dispense their prescription</p>
             </div>
             
             <div className="text-center">
@@ -128,7 +128,7 @@ const Home = () => {
                 3
               </div>
               <h3 className="font-semibold mb-2">Pharmacy Fulfills</h3>
-              <p className="text-sm text-gray-600">Pharmacy receives and processes the prescription</p>
+              <p className="text-sm text-gray-600">Pharmacy access and dispenses the prescription</p>
             </div>
             
           </div>
@@ -142,7 +142,7 @@ const Home = () => {
             Ready to Digitise Your Healthcare Experience?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of healthcare professionals already using our platform
+            Join hundreds of healthcare professionals already using our platform
           </p>
           <Link
             to="/register"

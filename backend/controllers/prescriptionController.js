@@ -10,8 +10,25 @@ const getPrescriptions = async (req, res) => {
 };
 
 const addPrescription = async (req, res) => {
-    const {prescriptionDate, medicationName, medicationStrength, medicationForm, directionOfUse, quantity, repeats, isDispensed} = req.body;
+    const {
+        prescriptionDate, 
+        medicationName, 
+        medicationStrength, 
+        medicationForm, 
+        directionOfUse, 
+        quantity, 
+        repeats, 
+        isDispensed,
+        patientEmail,
+        patientName,
+        pharmacyEmail  
+    } = req.body;
+    
     try {
+        if (req.user.role !== 'doctor') {
+            return res.status(403).json({ message: 'Only doctors can create prescriptions' });
+        }
+
         const prescription = await Prescription.create({ 
             userId: req.user.id, 
             prescriptionDate, 
@@ -21,7 +38,11 @@ const addPrescription = async (req, res) => {
             directionOfUse, 
             quantity, 
             repeats,
-            isDispensed 
+            isDispensed: false,
+            patientEmail,
+            patientName,
+            pharmacyEmail,
+            dispenseLog: []
         });
         res.status(201).json(prescription);
     } catch (error) {
@@ -30,10 +51,27 @@ const addPrescription = async (req, res) => {
 };
 
 const updatePrescription = async (req, res) => {
-    const {prescriptionDate, medicationName, medicationStrength, medicationForm, directionOfUse, quantity, repeats, isDispensed} = req.body;
+    const {
+        prescriptionDate, 
+        medicationName, 
+        medicationStrength, 
+        medicationForm, 
+        directionOfUse, 
+        quantity, 
+        repeats, 
+        isDispensed,
+        patientEmail,
+        patientName,
+        pharmacyEmail
+    } = req.body;
+    
     try {
         const prescription = await Prescription.findById(req.params.id);
         if(!prescription) return res.status(404).json({ message: 'Prescription not found' });
+        
+        if(prescription.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorised to update this prescription' });
+        }
         
         prescription.prescriptionDate = prescriptionDate || prescription.prescriptionDate;
         prescription.medicationName = medicationName || prescription.medicationName;
@@ -43,6 +81,9 @@ const updatePrescription = async (req, res) => {
         prescription.quantity = quantity || prescription.quantity;
         prescription.repeats = repeats || prescription.repeats;
         prescription.isDispensed = isDispensed || prescription.isDispensed;
+        prescription.patientEmail = patientEmail || prescription.patientEmail;
+        prescription.patientName = patientName || prescription.patientName;
+        prescription.pharmacyEmail = pharmacyEmail || prescription.pharmacyEmail;
     
         const updatedPrescription = await prescription.save();
         res.json(updatedPrescription);
@@ -56,6 +97,10 @@ const deletePrescription = async (req, res) => {
     try {
         const prescription = await Prescription.findById(req.params.id);
         if (!prescription) return res.status(404).json({ message: 'Prescription not found' });
+        
+        if(prescription.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorised to delete this prescription' });
+        }
         
         await Prescription.findByIdAndDelete(req.params.id);
         res.json({message: 'Prescription deleted'});
