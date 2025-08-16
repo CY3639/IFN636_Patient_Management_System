@@ -109,7 +109,6 @@ const PharmacyDashboard = () => {
         </button>
       </div>
 
-      {/* Search Section */}
       {activeTab === 'search' && (
         <div className="mb-6 p-4 bg-gray-50 rounded">
           <div className="flex gap-2">
@@ -130,7 +129,6 @@ const PharmacyDashboard = () => {
         </div>
       )}
 
-      {/* content area */}
       {loading ? (
         <div className="text-center py-8">Loading...</div>
       ) : (
