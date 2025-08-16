@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '../axiosConfig';
 import PrescriptionForm from '../components/PrescriptionForm';
 import PrescriptionList from '../components/PrescriptionList';
@@ -15,30 +15,30 @@ const Prescriptions = () => {
     pending: 0
   });
 
-  useEffect(() => {
-    const fetchPrescriptions = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosInstance.get('/api/prescriptions', {
-          headers: { Authorization: Bearer `${user.token}` },
-        });
-        setPrescriptions(response.data);
+const fetchPrescriptions = useCallback(async () => {
+  try {
+    setLoading(true);
+    const response = await axiosInstance.get('/api/prescriptions', {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    setPrescriptions(response.data);
 
-        const dispensed = response.data.filter(p => p.isDispensed).length;
-        setStats({
-          total: response.data.length,
-          dispensed: dispensed,
-          pending: response.data.length - dispensed
-        });
-      } catch (error) {
-        alert('Failed to fetch prescriptions.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    const dispensed = response.data.filter(p => p.isDispensed).length;
+    setStats({
+      total: response.data.length,
+      dispensed: dispensed,
+      pending: response.data.length - dispensed
+    });
+  } catch (error) {
+    alert('Failed to fetch prescriptions.');
+  } finally {
+    setLoading(false);
+  }
+}, [user.token]);
 
-    fetchPrescriptions();
-  }, [user]);
+useEffect(() => {
+  fetchPrescriptions();
+}, [fetchPrescriptions]);
 
   const handleFormSubmit = async (formData) => {
     try {
