@@ -6,9 +6,15 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    clinic: { type: String },
-    address: { type: String }
-
+    role: { 
+        type: String, 
+        enum: ['doctor', 'patient', 'pharmacy'], 
+        default: 'patient' //in case user registers without a specific role, this provides lowest access level by default
+    },
+    clinic: { type: String }, // for doctors
+    address: { type: String }, // for all roles
+    pharmacyName: { type: String }, 
+    prescriberNumber: { type: String }
 });
 
 userSchema.pre('save', async function (next) {
