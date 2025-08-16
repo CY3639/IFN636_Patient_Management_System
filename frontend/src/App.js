@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Prescriptions from './pages/Prescriptions';
+import PharmacyDashboard from './pages/PharmacyDashboard';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/prescriptions" element={<Prescriptions />} />
+        <Route path="/pharmacy" element={<PharmacyDashboard />} />
       </Routes>
     </Router>
   );
