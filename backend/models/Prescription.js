@@ -22,8 +22,8 @@ const prescriptionSchema = new mongoose.Schema({
         quantityDispensed: { type: Number },
         status: { 
             type: String, 
-            enum: ['pending', 'partially-dispensed', 'fully-dispensed'], 
-            default: 'pending' 
+            enum: ['Pending', 'Dispensed'], 
+            default: 'Pending' 
         }
     }]
 }, {

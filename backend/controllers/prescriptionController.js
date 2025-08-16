@@ -83,7 +83,7 @@ const updatePrescription = async (req, res) => {
         prescription.isDispensed = isDispensed || prescription.isDispensed;
         prescription.patientEmail = patientEmail || prescription.patientEmail;
         prescription.patientName = patientName || prescription.patientName;
-        prescription.pharmacyEmail = pharmacyEmail || prescription.pharmacyEmail;
+        if (req.body.pharmacyEmail !== undefined) prescription.pharmacyEmail = req.body.pharmacyEmail;
     
         const updatedPrescription = await prescription.save();
         res.json(updatedPrescription);
