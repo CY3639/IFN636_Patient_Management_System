@@ -17,9 +17,9 @@ const Prescriptions = () => {
 
   useEffect(() => {
     fetchPrescriptions();
-  }, [user]);
+  }, [fetchPrescriptions]);
 
-  const fetchPrescriptions = async () => {
+  const fetchPrescriptions = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get('/api/prescriptions', {
@@ -38,7 +38,7 @@ const Prescriptions = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user.token]);
 
   const handleFormSubmit = async (formData) => {
     try {
