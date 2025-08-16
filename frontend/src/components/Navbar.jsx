@@ -4,6 +4,15 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
   const { user, logout } = useAuth();
 
+  const handleLogout = async () => {
+    try {
+      logout();
+    } catch (error) {
+      console.error('Error during logout:', error);
+      window.location.href = '/';
+    }
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4">
@@ -38,7 +47,7 @@ const Navbar = () => {
                 </Link>
                 
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
                   Logout

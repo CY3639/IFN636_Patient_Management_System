@@ -16,6 +16,11 @@ const Prescriptions = () => {
   });
 
 const fetchPrescriptions = useCallback(async () => {
+    if (!user?.token) {
+      setLoading(false);
+      return;
+    }
+
   try {
     setLoading(true);
     const response = await axiosInstance.get('/api/prescriptions', {
@@ -34,13 +39,18 @@ const fetchPrescriptions = useCallback(async () => {
   } finally {
     setLoading(false);
   }
-}, [user.token]);
+}, [user?.token]);
 
 useEffect(() => {
   fetchPrescriptions();
 }, [fetchPrescriptions]);
 
   const handleFormSubmit = async (formData) => {
+    if (!user?.token) {
+      alert('Authentication required. Please log in.');
+      return;
+    }
+    
     try {
       if (editingPrescription) {
         const response = await axiosInstance.put(
@@ -67,7 +77,17 @@ useEffect(() => {
     }
   };
 
-  if (user && user.role !== 'doctor') {
+  if (!user) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="text-center">
+          <p>Please log in to access prescriptions.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user.role !== 'doctor') {
     return (
       <div className="container mx-auto p-6">
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
@@ -97,7 +117,7 @@ useEffect(() => {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Prescription Management</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Prescription Dashboard</h1>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -115,18 +135,32 @@ useEffect(() => {
         </div>
       </div>
 
-      <PrescriptionForm
-        editingPrescription={editingPrescription}
-        onSubmit={handleFormSubmit}
-      />
-      
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold mb-4">Your Prescriptions</h2>
-        <PrescriptionList 
-          prescriptions={prescriptions}
-          setPrescriptions={setPrescriptions}
-          setEditingPrescription={setEditingPrescription}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <h2 className="text-xl font-bold mb-4">
+            {editingPrescription ? 'Edit Prescription' : 'Create New Prescription'}
+          </h2>
+          <PrescriptionForm 
+            onSubmit={handleFormSubmit} 
+            initialData={editingPrescription}
+            onCancel={() => setEditingPrescription(null)}
+          />
+        </div>
+        
+        <div>
+          <h2 className="text-xl font-bold mb-4">Recent Prescriptions</h2>
+          {loading ? (
+            <div className="text-center py-8">
+              <p>Loading prescriptions...</p>
+            </div>
+          ) : (
+            <PrescriptionList 
+              prescriptions={prescriptions} 
+              setPrescriptions={setPrescriptions}
+              setEditingPrescription={setEditingPrescription}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

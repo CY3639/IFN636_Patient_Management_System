@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const DispenseHistory = () => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [searchId, setSearchId] = useState('');
   const [history, setHistory] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editingLog, setEditingLog] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
+if (!user?.token) {
+    return <div>Please log in to access dispense history.</div>;
+  }
   const fetchHistory = async () => {
     if (!searchId) return;
     
@@ -18,7 +21,7 @@ const DispenseHistory = () => {
         `http://localhost:5001/api/pharmacy/dispense-history/${searchId}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${user.token}`
           }
         }
       );
@@ -54,7 +57,7 @@ const DispenseHistory = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify(editFormData)
         }

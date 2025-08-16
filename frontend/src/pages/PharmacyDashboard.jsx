@@ -4,24 +4,20 @@ import PharmacyPrescriptionList from '../components/PharmacyPrescriptionList';
 import DispenseHistory from '../components/DispenseHistory';
 
 const PharmacyDashboard = () => {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('assigned'); // assigned, all, search, history
   const [searchEmail, setSearchEmail] = useState('');
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (user && user.role !== 'pharmacy') {
-      window.location.href = '/';
-    }
-  }, [user]);
-
-  const fetchPrescriptions = useCallback( async (endpoint) => {
+  const fetchPrescriptions = useCallback(async (endpoint) => {
+    if (!user?.token) return;
+  
     setLoading(true);
     try {
       const response = await fetch(`http://localhost:5001/api/pharmacy${endpoint}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${user.token}`
         }
       });
       const data = await response.json();
@@ -30,37 +26,73 @@ const PharmacyDashboard = () => {
       console.error('Error fetching prescriptions:', error);
     }
     setLoading(false);
-  }, [token]);
+  }, [user?.token]);
 
-    useEffect(() => {
-    if (activeTab === 'assigned') {
-        fetchPrescriptions('/prescriptions');
-    } else if (activeTab === 'all') {
-        fetchPrescriptions('/prescriptions/all');
+  useEffect(() => {
+    if (!user) {
+      window.location.href = '/';
+      return;
     }
-    }, [activeTab, fetchPrescriptions]);
+    if (user.role !== 'pharmacy') {
+      window.location.href = '/';
+      return;
+    }
+  }, [user]);
 
-//   useEffect(() => {
-//     if (activeTab === 'assigned') {
-//       fetchPrescriptions('/prescriptions');
-//     } else if (activeTab === 'all') {
-//       fetchPrescriptions('/prescriptions/all');
-//     }
-//   }, [activeTab, token]);
+  useEffect(() => {
+    if (user && user.role === 'pharmacy') {
+      if (activeTab === 'assigned') {
+        fetchPrescriptions('/prescriptions');
+      } else if (activeTab === 'all') {
+        fetchPrescriptions('/prescriptions/all');
+      }
+    }
+  }, [activeTab, fetchPrescriptions, user]);
 
   const handleSearch = () => {
-    if (searchEmail) {
+    if (searchEmail && user?.role === 'pharmacy') {
       fetchPrescriptions(`/prescriptions/patient/${searchEmail}`);
     }
   };
 
   const handleDispenseUpdate = () => {
-    if (activeTab === 'assigned') {
-      fetchPrescriptions('/prescriptions');
-    } else if (activeTab === 'all') {
-      fetchPrescriptions('/prescriptions/all');
+    if (user?.role === 'pharmacy') {
+      if (activeTab === 'assigned') {
+        fetchPrescriptions('/prescriptions');
+      } else if (activeTab === 'all') {
+        fetchPrescriptions('/prescriptions/all');
+      }
     }
   };
+
+  if (!user) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="text-center">
+          <p>Redirecting to home...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user.role !== 'pharmacy') {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+          <p className="font-bold">Access Restricted</p>
+          <p>Only pharmacy users can access this dashboard.</p>
+          <div className="mt-4">
+            <button
+              onClick={() => window.location.href = '/'}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Go to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -95,7 +127,7 @@ const PharmacyDashboard = () => {
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
-          Search Patient
+          Search by Patient
         </button>
         <button
           onClick={() => setActiveTab('history')}
@@ -129,21 +161,19 @@ const PharmacyDashboard = () => {
         </div>
       )}
 
-      {loading ? (
-        <div className="text-center py-8">Loading...</div>
+      {activeTab === 'history' ? (
+        <DispenseHistory />
       ) : (
-        <>
-          {(activeTab === 'assigned' || activeTab === 'all' || activeTab === 'search') && (
+        <div>
+          {loading ? (
+            <div className="text-center py-8">Loading prescriptions...</div>
+          ) : (
             <PharmacyPrescriptionList 
               prescriptions={prescriptions} 
               onDispenseUpdate={handleDispenseUpdate}
             />
           )}
-          
-          {activeTab === 'history' && (
-            <DispenseHistory />
-          )}
-        </>
+        </div>
       )}
     </div>
   );

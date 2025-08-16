@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const DispenseModal = ({ prescription, onClose, onSuccess }) => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     quantityDispensed: prescription.quantity,
     notes: '',
@@ -10,6 +10,10 @@ const DispenseModal = ({ prescription, onClose, onSuccess }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+if (!user?.token) {
+    return <div>Authentication required.</div>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +27,7 @@ const DispenseModal = ({ prescription, onClose, onSuccess }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify(formData)
         }

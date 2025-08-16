@@ -3,10 +3,14 @@ import DispenseModal from './DispenseModal';
 import { useAuth } from '../context/AuthContext';
 
 const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [showDispenseModal, setShowDispenseModal] = useState(false);
   const [viewDetails, setViewDetails] = useState(null);
+
+  if (!user?.token) {
+    return <div>Please log in to access pharmacy features.</div>;
+  }
 
   const handleDispense = (prescription) => {
     setSelectedPrescription(prescription);
@@ -19,7 +23,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
         `http://localhost:5001/api/pharmacy/dispense-history/${prescriptionId}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${user.token}`
           }
         }
       );
