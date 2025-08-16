@@ -29,12 +29,6 @@ const Register = () => {
       return;
     }
 
-    // Validate password length
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-
     setLoading(true);
     try {
       const dataToSend = {
@@ -203,7 +197,6 @@ const Register = () => {
               />
             </div>
 
-            {/* Password Fields */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password *
@@ -217,7 +210,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Minimum 6 characters"
+                placeholder=" "
               />
             </div>
 

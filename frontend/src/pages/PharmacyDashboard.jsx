@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import PharmacyPrescriptionList from '../components/PharmacyPrescriptionList';
 import DispenseHistory from '../components/DispenseHistory';
@@ -16,7 +16,7 @@ const PharmacyDashboard = () => {
     }
   }, [user]);
 
-  const fetchPrescriptions = async (endpoint) => {
+  const fetchPrescriptions = useCallback( async (endpoint) => {
     setLoading(true);
     try {
       const response = await fetch(`http://localhost:5001/api/pharmacy${endpoint}`, {
@@ -30,15 +30,23 @@ const PharmacyDashboard = () => {
       console.error('Error fetching prescriptions:', error);
     }
     setLoading(false);
-  };
+  }, [token]);
 
-  useEffect(() => {
+    useEffect(() => {
     if (activeTab === 'assigned') {
-      fetchPrescriptions('/prescriptions');
+        fetchPrescriptions('/prescriptions');
     } else if (activeTab === 'all') {
-      fetchPrescriptions('/prescriptions/all');
+        fetchPrescriptions('/prescriptions/all');
     }
-  }, [activeTab, token]);
+    }, [activeTab, fetchPrescriptions]);
+
+//   useEffect(() => {
+//     if (activeTab === 'assigned') {
+//       fetchPrescriptions('/prescriptions');
+//     } else if (activeTab === 'all') {
+//       fetchPrescriptions('/prescriptions/all');
+//     }
+//   }, [activeTab, token]);
 
   const handleSearch = () => {
     if (searchEmail) {
@@ -101,7 +109,6 @@ const PharmacyDashboard = () => {
         </button>
       </div>
 
-      {/* Search Section */}
       {activeTab === 'search' && (
         <div className="mb-6 p-4 bg-gray-50 rounded">
           <div className="flex gap-2">
@@ -122,7 +129,6 @@ const PharmacyDashboard = () => {
         </div>
       )}
 
-      {/* content area */}
       {loading ? (
         <div className="text-center py-8">Loading...</div>
       ) : (
