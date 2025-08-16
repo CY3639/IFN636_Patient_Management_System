@@ -1,4 +1,3 @@
-
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -8,13 +7,49 @@ const generateToken = (id) => {
 };
 
 const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { 
+        name, 
+        email, 
+        password, 
+        role,
+        clinic,
+        address,
+        pharmacyName,
+        prescriberNumber
+    } = req.body;
+    
     try {
         const userExists = await User.findOne({ email });
         if (userExists) return res.status(400).json({ message: 'User already exists' });
 
-        const user = await User.create({ name, email, password });
-        res.status(201).json({ id: user.id, name: user.name, email: user.email, token: generateToken(user.id) });
+        const userData = {
+            name,
+            email,
+            password,
+            role: role || 'patient', // default to patient if not specified
+            address
+        };
+
+        if (role === 'doctor' && clinic) {
+            userData.clinic = clinic;
+        }
+        if (role === 'doctor' && prescriberNumber) {
+            userData.prescriberNumber = prescriberNumber;
+        }
+        if (role === 'pharmacy' && pharmacyName) {
+            userData.pharmacyName = pharmacyName;
+        }
+
+
+        const user = await User.create(userData);
+        
+        res.status(201).json({ 
+            id: user.id, 
+            name: user.name, 
+            email: user.email,
+            role: user.role,
+            token: generateToken(user.id) 
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -25,7 +60,13 @@ const loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (user && (await bcrypt.compare(password, user.password))) {
-            res.json({ id: user.id, name: user.name, email: user.email, token: generateToken(user.id) });
+            res.json({ 
+                id: user.id, 
+                name: user.name, 
+                email: user.email,
+                role: user.role,
+                token: generateToken(user.id) 
+            });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
         }
@@ -36,38 +77,57 @@ const loginUser = async (req, res) => {
 
 const getProfile = async (req, res) => {
     try {
-      const user = await User.findById(req.user.id);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      res.status(200).json({
-        name: user.name,
-        email: user.email,
-        address: user.address,
-      });
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            address: user.address,
+            clinic: user.clinic,
+            pharmacyName: user.pharmacyName,
+            //prescriberNumber: user.prescriberNumber
+        });
     } catch (error) {
-      res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
-  };
+};
 
 const updateUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const { name, email, clinic, address } = req.body;
+        const { name, email, clinic, address, pharmacyName, prescriberNumber } = req.body;
+        
         user.name = name || user.name;
         user.email = email || user.email;
         user.address = address || user.address;
+        
+        if (user.role === 'doctor') {
+            user.clinic = clinic || user.clinic;
+            user.prescriberNumber = prescriberNumber || user.prescriberNumber;
+        }
+        if (user.role === 'pharmacy') {
+            user.pharmacyName = pharmacyName || user.pharmacyName;
+        }
 
         const updatedUser = await user.save();
-        res.json({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email, address: updatedUser.address, token: generateToken(updatedUser.id) });
+        
+        res.json({ 
+            id: updatedUser.id, 
+            name: updatedUser.name, 
+            email: updatedUser.email,
+            role: updatedUser.role,
+            address: updatedUser.address, 
+            token: generateToken(updatedUser.id) 
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-
-
 
 module.exports = { registerUser, loginUser, updateUserProfile, getProfile };
