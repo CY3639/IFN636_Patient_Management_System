@@ -4,6 +4,7 @@ A full-stack MERN application for managing electronic prescriptions and drug tra
 ## Live Application
 
 **Public URL**: [https://ec2-16-176-13-80.ap-southeast-2.compute.amazonaws.com/] as of 17/08/2025
+
 **Jira URL**: [https://beyondmedmx.atlassian.net/jira/software/projects/PM/boards/34?atlOrigin=eyJpIjoiYjQ5MTU3OTM1NDYzNDBmNDk0ZjAxNThkZjY2OWZhNGMiLCJwIjoiaiJ9]
 
 **Demo Credentials**:
