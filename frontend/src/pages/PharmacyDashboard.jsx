@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PharmacyPrescriptionList from '../components/PharmacyPrescriptionList';
 import DispenseHistory from '../components/DispenseHistory';
 
 const PharmacyDashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('assigned'); // assigned, all, search, history
   const [searchEmail, setSearchEmail] = useState('');
   const [prescriptions, setPrescriptions] = useState([]);
@@ -29,25 +31,27 @@ const PharmacyDashboard = () => {
   }, [user?.token]);
 
   useEffect(() => {
-    if (!user) {
-      window.location.href = '/';
-      return;
-    }
-    if (user.role !== 'pharmacy') {
-      window.location.href = '/';
-      return;
-    }
-  }, [user]);
-
-  useEffect(() => {
     if (user && user.role === 'pharmacy') {
       if (activeTab === 'assigned') {
         fetchPrescriptions('/prescriptions');
       } else if (activeTab === 'all') {
         fetchPrescriptions('/prescriptions/all');
+      } else if (activeTab === 'search') {
+        setPrescriptions([]);
       }
     }
-  }, [activeTab, fetchPrescriptions, user]);
+  }, [activeTab, fetchPrescriptions, user, navigate]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+      return;
+    }
+    if (user.role !== 'pharmacy') {
+      navigate('/');
+      return;
+    }
+  }, [user, navigate]);
 
   const handleSearch = () => {
     if (searchEmail && user?.role === 'pharmacy') {
@@ -83,7 +87,7 @@ const PharmacyDashboard = () => {
           <p>Only pharmacy users can access this dashboard.</p>
           <div className="mt-4">
             <button
-              onClick={() => window.location.href = '/'}
+              onClick={() => navigate('/')}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
               Go to Home
@@ -117,6 +121,7 @@ const PharmacyDashboard = () => {
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
+            
           All Prescriptions
         </button>
         <button
@@ -127,6 +132,7 @@ const PharmacyDashboard = () => {
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
+
           Search by Patient
         </button>
         <button
@@ -158,6 +164,11 @@ const PharmacyDashboard = () => {
               Search
             </button>
           </div>
+          {prescriptions.length === 0 && !loading && (
+            <p className="mt-2 text-sm text-gray-600">
+              Enter a patient email address and click Search to find their prescriptions.
+            </p>
+          )}
         </div>
       )}
 

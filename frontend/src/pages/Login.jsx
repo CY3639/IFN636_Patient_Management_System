@@ -5,7 +5,7 @@ import axiosInstance from '../axiosConfig';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const { login } = useAuth();
+  const { login, getDefaultRoute } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -13,7 +13,10 @@ const Login = () => {
     try {
       const response = await axiosInstance.post('/api/auth/login', formData);
       login(response.data);
-      navigate('/prescriptions');
+
+      const defaultRoute = getDefaultRoute(response.data.role);
+      navigate(defaultRoute);
+
     } catch (error) {
       alert('Login failed. Please try again.');
     }

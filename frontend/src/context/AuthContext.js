@@ -11,19 +11,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 100);
   };
 
   const handleAutoLogout = (reason = 'Session expired') => {
     console.log('Auto-logout triggered:', reason);
     setUser(null);
     alert(`${reason}. Please log in again.`);
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 100);
   };
 
   const getDefaultRoute = (userRole) => {
@@ -39,13 +32,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const navigateToDefaultRoute = () => {
-    if (user) {
-      const route = getDefaultRoute(user.role);
-      window.location.href = route;
-    }
-  };
-
   const token = user?.token || null;
   const isAuthenticated = !!user && !!token;
 
@@ -57,7 +43,6 @@ export const AuthProvider = ({ children }) => {
     logout,
     handleAutoLogout,
     getDefaultRoute,
-    navigateToDefaultRoute
   };
 
   return (

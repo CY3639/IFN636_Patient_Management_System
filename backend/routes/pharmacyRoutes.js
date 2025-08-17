@@ -16,6 +16,6 @@ router.get('/prescriptions/all', protect, getAllPrescriptions);
 router.get('/prescriptions/patient/:patientEmail', protect, getPrescriptionsByPatient);
 router.post('/dispense/:prescriptionId', protect, dispensePrescription);
 router.put('/dispense/:prescriptionId/log/:logId', protect, updateDispenseLog);
-router.get('/dispense-history/:prescriptionId', protect, getDispenseHistory);
+router.get('/dispense-history', protect, getDispenseHistory);
 
 module.exports = router;

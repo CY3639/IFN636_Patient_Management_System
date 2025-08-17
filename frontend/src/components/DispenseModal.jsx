@@ -94,7 +94,7 @@ if (!user?.token) {
               onChange={(e) => setFormData({...formData, status: e.target.value})}
               className="w-full p-2 border rounded"
             >
-              <option value="Dispensed">Fully Dispensed</option>
+              <option value="Dispensed">Dispensed</option>
               <option value="pending">Pending</option>
             </select>
           </div>

@@ -149,25 +149,12 @@ const getDispenseHistory = async (req, res) => {
             return res.status(403).json({ message: 'Access denied. Pharmacy only.' });
         }
 
-        const { prescriptionId } = req.params;
+        const prescriptions = await Prescription.find({ 
+            pharmacyEmail: req.user.email,
+            isDispensed: true 
+        }).populate('userId', 'name email');
         
-        const prescription = await Prescription.findById(prescriptionId)
-            .populate('userId', 'name email clinic')
-            .populate('dispenseLog.dispensedBy', 'name pharmacyName');
-        
-        if (!prescription) {
-            return res.status(404).json({ message: 'Prescription not found' });
-        }
-
-        res.json({
-            prescription: {
-                id: prescription._id,
-                medicationName: prescription.medicationName,
-                patientName: prescription.patientName,
-                patientEmail: prescription.patientEmail
-            },
-            dispenseLog: prescription.dispenseLog
-        });
+        res.json(prescriptions);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

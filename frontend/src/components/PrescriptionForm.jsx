@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
+//import { useAuth } from '../context/AuthContext';
 
 const PrescriptionForm = ({ editingPrescription, onSubmit }) => {
-  const { user } = useAuth();
+  //const { user } = useAuth();
   const [formData, setFormData] = useState({
     prescriptionDate: '',
     medicationName: '',
@@ -49,8 +49,8 @@ const PrescriptionForm = ({ editingPrescription, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!formData.patientName || !formData.patientEmail) {
-      alert('Patient name and email are required');
+    if (!formData.patientName || !formData.patientEmail || !formData.pharmacyEmail) {
+      alert('Patient name, email, and Pharmacy email are required');
       return;
     }
     
@@ -86,10 +86,10 @@ const PrescriptionForm = ({ editingPrescription, onSubmit }) => {
       </div>
 
       <div className="mb-4 p-3 bg-green-50 rounded">
-        <h3 className="font-semibold text-green-800 mb-2">Pharmacy Assignment (Optional)</h3>
+        <h3 className="font-semibold text-green-800 mb-2">Pharmacy Email</h3>
         <input
           type="email"
-          placeholder="Pharmacy Email (leave blank for patient choice)"
+          placeholder="Pharmacy Email *"
           value={formData.pharmacyEmail}
           onChange={(e) => setFormData({ ...formData, pharmacyEmail: e.target.value })}
           className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
