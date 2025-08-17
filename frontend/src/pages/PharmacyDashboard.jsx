@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PharmacyPrescriptionList from '../components/PharmacyPrescriptionList';
@@ -12,20 +12,30 @@ const PharmacyDashboard = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const API_BASE_URL = useMemo(() => {
+    return process.env.REACT_APP_API_URL || 
+      (window.location.hostname === 'localhost' ? 
+        'http://localhost:5001' : 
+        `${window.location.protocol}//${window.location.hostname}:5001`
+      );
+  }, []);
+
   const fetchPrescriptions = useCallback(async (endpoint) => {
     if (!user?.token) return;
   
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/pharmacy${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}/api/pharmacy${endpoint}`, {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
       });
+
       const data = await response.json();
       setPrescriptions(data);
     } catch (error) {
       console.error('Error fetching prescriptions:', error);
+      setPrescriptions([]);
     }
     setLoading(false);
   }, [user?.token]);

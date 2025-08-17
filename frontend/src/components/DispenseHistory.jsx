@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const DispenseHistory = () => {
@@ -8,13 +8,21 @@ const DispenseHistory = () => {
   const [editingLog, setEditingLog] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 
+  const API_BASE_URL = useMemo(() => {
+    return process.env.REACT_APP_API_URL || 
+      (window.location.hostname === 'localhost' ? 
+        'http://localhost:5001' : 
+        `${window.location.protocol}//${window.location.hostname}:5001`
+      );
+  }, []);
+
   useEffect(() => {
     if (user?.token) {
       const fetchAllDispenseHistory = async () => {
         setLoading(true);
         try {
           const response = await fetch(
-            `http://localhost:5001/api/pharmacy/dispense-history`,
+            `${API_BASE_URL}/api/pharmacy/dispense-history`,
             {
               headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -38,7 +46,7 @@ const DispenseHistory = () => {
 
       fetchAllDispenseHistory();
     }
-  }, [user?.token]);
+  }, [user?.token, API_BASE_URL]);
 
   if (!user?.token) {
     return <div>Please log in to access dispense history.</div>;
@@ -55,7 +63,7 @@ const DispenseHistory = () => {
   const handleUpdate = async (prescriptionId, logId) => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/pharmacy/dispense/${prescriptionId}/log/${logId}`,
+        `${API_BASE_URL}/api/pharmacy/dispense/${prescriptionId}/log/${logId}`,
         {
           method: 'PUT',
           headers: {
@@ -70,7 +78,7 @@ const DispenseHistory = () => {
         setLoading(true);
         try {
           const refreshResponse = await fetch(
-            `http://localhost:5001/api/pharmacy/dispense-history`,
+            `${API_BASE_URL}/api/pharmacy/dispense-history`,
             {
               headers: {
                 'Authorization': `Bearer ${user.token}`
