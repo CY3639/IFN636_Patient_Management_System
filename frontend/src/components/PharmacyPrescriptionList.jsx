@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import DispenseModal from './DispenseModal';
 import { useAuth } from '../context/AuthContext';
 
@@ -7,6 +7,14 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
   const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [showDispenseModal, setShowDispenseModal] = useState(false);
   const [viewDetails, setViewDetails] = useState(null);
+
+  const API_BASE_URL = useMemo(() => {
+    return process.env.REACT_APP_API_URL || 
+      (window.location.hostname === 'localhost' ? 
+        'http://localhost:5001' : 
+        `${window.location.protocol}//${window.location.hostname}:5001`
+      );
+  }, []);
 
   if (!user?.token) {
     return <div>Please log in to access pharmacy features.</div>;
@@ -20,7 +28,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
   const handleViewHistory = async (prescriptionId) => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/pharmacy/dispense-history/${prescriptionId}`,
+        `${API_BASE_URL}/api/pharmacy/dispense-history/${prescriptionId}`,
         {
           headers: {
             'Authorization': `Bearer ${user.token}`
@@ -32,6 +40,23 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
     } catch (error) {
       console.error('Error fetching history:', error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowDispenseModal(false);
+    setSelectedPrescription(null);
+  };
+
+  const handleDispenseSuccess = () => {
+    setShowDispenseModal(false);
+    setSelectedPrescription(null);
+    if (onDispenseUpdate) {
+      onDispenseUpdate();
+    }
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString();
   };
 
   return (
@@ -87,77 +112,76 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
                   </div>
 
                   {prescription.dispenseLog && prescription.dispenseLog.length > 0 && (
-                    <div className="mt-3 p-2 bg-gray-50 rounded text-sm">
-                      <span className="font-medium">Last Dispensed:</span> {
-                        new Date(prescription.dispenseLog[prescription.dispenseLog.length - 1].dispensedDate).toLocaleDateString()
-                      } - {prescription.dispenseLog[prescription.dispenseLog.length - 1].status}
+                    <div className="mt-4 p-3 bg-gray-50 rounded">
+                      <h4 className="font-medium text-sm mb-2">Dispense History:</h4>
+                      {prescription.dispenseLog.map((log, index) => (
+                        <div key={index} className="text-xs text-gray-600 mb-1">
+                          <span className="font-medium">
+                            {formatDate(log.dispensedDate)}
+                          </span> - 
+                          Qty: {log.quantityDispensed} by {log.dispensedByName} 
+                          <span className={`ml-2 px-1 py-0.5 rounded ${
+                            log.status === 'Dispensed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                          }`}>
+                            {log.status}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
-
+                
                 <div className="flex flex-col gap-2 ml-4">
                   {!prescription.isDispensed && (
                     <button
                       onClick={() => handleDispense(prescription)}
-                      className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                      className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
                     >
                       Dispense
                     </button>
                   )}
                   <button
                     onClick={() => handleViewHistory(prescription._id)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
                   >
                     View History
                   </button>
                 </div>
               </div>
-
-              {viewDetails && viewDetails.prescription.id === prescription._id && (
-                <div className="mt-4 p-3 bg-blue-50 rounded">
-                  <h4 className="font-semibold mb-2">Dispense History</h4>
-                  {viewDetails.dispenseLog.length === 0 ? (
-                    <p className="text-sm text-gray-600">No dispense history</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {viewDetails.dispenseLog.map((log, index) => (
-                        <div key={index} className="text-sm border-l-2 border-blue-300 pl-3">
-                          <div className="font-medium">
-                            {new Date(log.dispensedDate).toLocaleString()}
-                          </div>
-                          <div>By: {log.dispensedByName}</div>
-                          <div>Quantity: {log.quantityDispensed}</div>
-                          <div>Status: {log.status}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <button
-                    onClick={() => setViewDetails(null)}
-                    className="mt-2 text-sm text-blue-600 hover:underline"
-                  >
-                    Close
-                  </button>
-                </div>
-              )}
             </div>
           ))}
         </div>
       )}
 
-      {showDispenseModal && (
+      {showDispenseModal && selectedPrescription && (
         <DispenseModal
           prescription={selectedPrescription}
-          onClose={() => {
-            setShowDispenseModal(false);
-            setSelectedPrescription(null);
-          }}
-          onSuccess={() => {
-            setShowDispenseModal(false);
-            setSelectedPrescription(null);
-            onDispenseUpdate();
-          }}
+          onClose={handleCloseModal}
+          onSuccess={handleDispenseSuccess}
         />
+      )}
+
+      {viewDetails && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-1/2 shadow-lg rounded-md bg-white">
+            <div className="mt-3">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Prescription Details
+              </h3>
+              <pre className="text-sm bg-gray-100 p-4 rounded overflow-auto">
+                {JSON.stringify(viewDetails, null, 2)}
+              </pre>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={() => setViewDetails(null)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
