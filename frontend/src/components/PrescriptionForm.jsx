@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 //import { useAuth } from '../context/AuthContext';
 
-const PrescriptionForm = ({ editingPrescription, onSubmit }) => {
+const PrescriptionForm = ({ editingPrescription, onSubmit, onCancel }) => {
   //const { user } = useAuth();
   const [formData, setFormData] = useState({
     prescriptionDate: '',
@@ -164,12 +164,24 @@ const PrescriptionForm = ({ editingPrescription, onSubmit }) => {
         </div>
       </div>
 
-      <button 
-        type="submit" 
-        className="w-full mt-4 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition font-medium"
-      >
-        {editingPrescription ? 'Update Prescription' : 'Create Prescription'}
-      </button>
+      <div className="flex gap-2 mt-4">
+        <button 
+          type="submit" 
+          className="flex-1 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition font-medium"
+        >
+          {editingPrescription ? 'Update Prescription' : 'Create Prescription'}
+        </button>
+        
+        {editingPrescription && onCancel && (
+          <button 
+            type="button"
+            onClick={onCancel}
+            className="px-6 bg-gray-500 text-white p-2 rounded hover:bg-gray-600 transition font-medium"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 };

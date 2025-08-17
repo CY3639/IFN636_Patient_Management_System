@@ -142,7 +142,7 @@ useEffect(() => {
           </h2>
           <PrescriptionForm 
             onSubmit={handleFormSubmit} 
-            initialData={editingPrescription}
+            editingPrescription={editingPrescription}
             onCancel={() => setEditingPrescription(null)}
           />
         </div>
