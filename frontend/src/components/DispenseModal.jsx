@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const DispenseModal = ({ prescription, onClose, onSuccess }) => {
@@ -11,14 +11,6 @@ const DispenseModal = ({ prescription, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-const API_BASE_URL = useMemo(() => {
-    return process.env.REACT_APP_API_URL || 
-      (window.location.hostname === 'localhost' ? 
-        'http://localhost:5001' : 
-        `${window.location.protocol}//${window.location.hostname}:5001`
-      );
-  }, []);
-
 if (!user?.token) {
     return <div>Authentication required.</div>;
   }
@@ -30,7 +22,7 @@ if (!user?.token) {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/pharmacy/dispense/${prescription._id}`,
+        `http://localhost:5001/api/pharmacy/dispense/${prescription._id}`,
         {
           method: 'POST',
           headers: {
@@ -51,13 +43,6 @@ if (!user?.token) {
       setError('Network error. Please try again.');
     }
     setLoading(false);
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
   };
 
   return (
@@ -91,7 +76,10 @@ if (!user?.token) {
               min="1"
               max={prescription.quantity}
               value={formData.quantityDispensed}
-              onChange={handleChange}
+              onChange={(e) => setFormData({
+                ...formData, 
+                quantityDispensed: parseInt(e.target.value)
+              })}
               className="w-full p-2 border rounded"
               required
             />
@@ -103,7 +91,7 @@ if (!user?.token) {
             </label>
             <select
               value={formData.status}
-              onChange={handleChange}
+              onChange={(e) => setFormData({...formData, status: e.target.value})}
               className="w-full p-2 border rounded"
             >
               <option value="Dispensed">Dispensed</option>
