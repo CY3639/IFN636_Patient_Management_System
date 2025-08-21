@@ -12,7 +12,6 @@ const Register = () => {
     role: 'doctor', // Default role
     clinic: '',
     pharmacyName: '',
-    prescriberNumber: '',
     address: ''
   });
   const [error, setError] = useState('');
@@ -44,9 +43,6 @@ const Register = () => {
       }
       if (formData.role === 'pharmacy' && formData.pharmacyName) {
         dataToSend.pharmacyName = formData.pharmacyName;
-      }
-      if ((formData.role === 'doctor' || formData.role === 'pharmacy') && formData.prescriberNumber) {
-        dataToSend.prescriberNumber = formData.prescriberNumber;
       }
 
       const response = await axiosInstance.post('/api/auth/register', dataToSend);
@@ -126,7 +122,6 @@ const Register = () => {
 
                 <option value="doctor">Doctor</option>
                 <option value="pharmacy">Pharmacy</option>
-                {/* <option value="patient">Patient</option> */}
               </select>
             </div>
 
@@ -144,20 +139,6 @@ const Register = () => {
                     onChange={(e) => setFormData({ ...formData, clinic: e.target.value })}
                     className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                     placeholder="Brisbane City Medical Center"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="licenseNumber" className="block text-sm font-medium text-gray-700">
-                    Prescriber Number
-                  </label>
-                  <input
-                    id="licenseNumber"
-                    name="licenseNumber"
-                    type="text"
-                    value={formData.licenseNumber}
-                    onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
-                    className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                    placeholder="0123456"
                   />
                 </div>
               </>
