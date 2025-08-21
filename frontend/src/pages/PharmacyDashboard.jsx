@@ -7,7 +7,7 @@ import DispenseHistory from '../components/DispenseHistory';
 const PharmacyDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('assigned'); // assigned, all, search, history
+  const [activeTab, setActiveTab] = useState('assigned');
   const [searchEmail, setSearchEmail] = useState('');
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,10 +22,17 @@ const PharmacyDashboard = () => {
           'Authorization': `Bearer ${user.token}`
         }
       });
-      const data = await response.json();
-      setPrescriptions(data);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setPrescriptions(data);
+      } else {
+        console.error('Failed to fetch prescriptions');
+        setPrescriptions([]);
+      }
     } catch (error) {
       console.error('Error fetching prescriptions:', error);
+      setPrescriptions([]);
     }
     setLoading(false);
   }, [user?.token]);
@@ -40,7 +47,7 @@ const PharmacyDashboard = () => {
         setPrescriptions([]);
       }
     }
-  }, [activeTab, fetchPrescriptions, user, navigate]);
+  }, [activeTab, fetchPrescriptions, user]);
 
   useEffect(() => {
     if (!user) {
@@ -65,6 +72,8 @@ const PharmacyDashboard = () => {
         fetchPrescriptions('/prescriptions');
       } else if (activeTab === 'all') {
         fetchPrescriptions('/prescriptions/all');
+      } else if (activeTab === 'search' && searchEmail) {
+        fetchPrescriptions(`/prescriptions/patient/${searchEmail}`);
       }
     }
   };
@@ -121,7 +130,6 @@ const PharmacyDashboard = () => {
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
-            
           All Prescriptions
         </button>
         <button
@@ -132,7 +140,6 @@ const PharmacyDashboard = () => {
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
-
           Search by Patient
         </button>
         <button
@@ -155,16 +162,17 @@ const PharmacyDashboard = () => {
               placeholder="Enter patient email..."
               value={searchEmail}
               onChange={(e) => setSearchEmail(e.target.value)}
-              className="flex-1 p-2 border rounded"
+              className="flex-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              disabled={!searchEmail || loading}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
             >
-              Search
+              {loading ? 'Searching...' : 'Search'}
             </button>
           </div>
-          {prescriptions.length === 0 && !loading && (
+          {prescriptions.length === 0 && !loading && activeTab === 'search' && (
             <p className="mt-2 text-sm text-gray-600">
               Enter a patient email address and click Search to find their prescriptions.
             </p>
@@ -177,7 +185,10 @@ const PharmacyDashboard = () => {
       ) : (
         <div>
           {loading ? (
-            <div className="text-center py-8">Loading prescriptions...</div>
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <p className="mt-2 text-gray-600">Loading prescriptions...</p>
+            </div>
           ) : (
             <PharmacyPrescriptionList 
               prescriptions={prescriptions} 

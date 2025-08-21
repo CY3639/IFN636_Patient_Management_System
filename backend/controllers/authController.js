@@ -14,8 +14,7 @@ const registerUser = async (req, res) => {
         role,
         clinic,
         address,
-        pharmacyName,
-        prescriberNumber
+        pharmacyName
     } = req.body;
     
     try {
@@ -32,9 +31,6 @@ const registerUser = async (req, res) => {
 
         if (role === 'doctor' && clinic) {
             userData.clinic = clinic;
-        }
-        if (role === 'doctor' && prescriberNumber) {
-            userData.prescriberNumber = prescriberNumber;
         }
         if (role === 'pharmacy' && pharmacyName) {
             userData.pharmacyName = pharmacyName;
@@ -89,7 +85,6 @@ const getProfile = async (req, res) => {
             address: user.address,
             clinic: user.clinic,
             pharmacyName: user.pharmacyName,
-            //prescriberNumber: user.prescriberNumber
         });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -101,7 +96,7 @@ const updateUserProfile = async (req, res) => {
         const user = await User.findById(req.user.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const { name, email, clinic, address, pharmacyName, prescriberNumber } = req.body;
+        const { name, email, clinic, address, pharmacyName } = req.body;
         
         user.name = name || user.name;
         user.email = email || user.email;
@@ -109,7 +104,6 @@ const updateUserProfile = async (req, res) => {
         
         if (user.role === 'doctor') {
             user.clinic = clinic || user.clinic;
-            user.prescriberNumber = prescriberNumber || user.prescriberNumber;
         }
         if (user.role === 'pharmacy') {
             user.pharmacyName = pharmacyName || user.pharmacyName;

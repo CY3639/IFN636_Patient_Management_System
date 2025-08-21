@@ -102,7 +102,6 @@ describe('Prescription Controller Tests', () => {
           repeats: "2",
           patientName: "Jane Smith",
           patientEmail: "jane.smith@patient.com"
-          // pharmacyEmail intentionally omitted as it is optional
         }
       };
 
@@ -210,11 +209,6 @@ describe('Prescription Controller Tests', () => {
         save: sinon.stub()
       };
 
-      // Convert to Mongoose-like object
-      // Object.setPrototypeOf(existingPrescription, {
-      //   toString: function() { return this._id.toString(); }
-      // });
-      // existingPrescription.userId.toString = () => userId.toString();
       existingPrescription.save.resolves(existingPrescription);
 
       const findByIdStub = sinon.stub(Prescription, 'findById').resolves(existingPrescription);
@@ -258,10 +252,6 @@ describe('Prescription Controller Tests', () => {
         save: sinon.stub()
       };
 
-      // Object.setPrototypeOf(existingPrescription, {
-      //   toString: function() { return this._id.toString(); }
-      // });
-      // existingPrescription.userId.toString = () => userId.toString();
       existingPrescription.save.resolves(existingPrescription);
 
       const findByIdStub = sinon.stub(Prescription, 'findById').resolves(existingPrescription);
@@ -270,7 +260,7 @@ describe('Prescription Controller Tests', () => {
         user: { id: userId.toString() },
         params: { id: prescriptionId },
         body: {
-          pharmacyEmail: '' // Clear pharmacy assignment
+          pharmacyEmail: ''
         }
       };
 
@@ -309,7 +299,7 @@ describe('Prescription Controller Tests', () => {
           medicationName: 'Med 2',
           patientName: 'Patient Two',
           patientEmail: 'patient2@test.com',
-          pharmacyEmail: '' // no pharmacy assigned
+          pharmacyEmail: ''
         }
       ];
 

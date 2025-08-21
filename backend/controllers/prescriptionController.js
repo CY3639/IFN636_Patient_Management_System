@@ -9,6 +9,28 @@ const getPrescriptions = async (req, res) => {
     }
 };
 
+const getPrescriptionById = async (req, res) => {
+    try {
+        const prescription = await Prescription.findById(req.params.id).populate('userId', 'name email clinic');
+        
+        if (!prescription) {
+            return res.status(404).json({ message: 'Prescription not found' });
+        }
+
+        const isDoctor = req.user.role === 'doctor' && prescription.userId._id.toString() === req.user.id;
+        const isAssignedPharmacy = req.user.role === 'pharmacy' && prescription.pharmacyEmail === req.user.email;
+        const isPharmacyViewingAll = req.user.role === 'pharmacy';
+
+        if (!isDoctor && !isAssignedPharmacy && !isPharmacyViewingAll) {
+            return res.status(403).json({ message: 'Not authorized to view this prescription' });
+        }
+
+        res.json(prescription);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const addPrescription = async (req, res) => {
     const {
         prescriptionDate, 
@@ -109,4 +131,4 @@ const deletePrescription = async (req, res) => {
     }
 };
 
-module.exports = { getPrescriptions, addPrescription, updatePrescription, deletePrescription };
+module.exports = { getPrescriptions, getPrescriptionById, addPrescription, updatePrescription, deletePrescription };
