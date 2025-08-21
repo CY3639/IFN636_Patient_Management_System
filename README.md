@@ -1,6 +1,6 @@
 # E-Prescription and Prescription Tracker
 
-A full-stack MERN application for managing electronic prescriptions and drug tracking. Built as part of IFN636 Software Lifecycle Management coursework.
+A full-stack MERN application for managing electronic prescriptions and prescription tracking. Built as part of IFN636 Software Lifecycle Management coursework.
 ## Live Application
 
 **Public URL**: [https://ec2-16-176-13-80.ap-southeast-2.compute.amazonaws.com/] as of 17/08/2025
