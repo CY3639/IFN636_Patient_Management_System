@@ -113,7 +113,7 @@ describe('Pharmacy Controller Tests', () => {
       expect(mockPrescription.dispenseLog[0].dispensedBy).to.equal(pharmacyUser.id);
       expect(mockPrescription.dispenseLog[0].quantityDispensed).to.equal(30);
       expect(mockPrescription.dispenseLog[0].status).to.equal('Dispensed');
-      expect(mockPrescription.isDispensed).to.be.true; // This should now pass
+      expect(mockPrescription.isDispensed).to.be.true;
       expect(mockPrescription.save.called).to.be.true;
       expect(res.json.called).to.be.true;
 

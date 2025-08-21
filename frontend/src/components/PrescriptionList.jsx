@@ -81,7 +81,6 @@ const PrescriptionList = ({ prescriptions, setPrescriptions, setEditingPrescript
               </div>
             )}
 
-            {/* Action Buttons */}
             <div className="mt-3 flex gap-2">
               <button
                 onClick={() => setEditingPrescription(prescription)}
