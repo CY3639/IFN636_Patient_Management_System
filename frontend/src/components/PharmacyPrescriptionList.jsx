@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import axiosInstance from '../axiosConfig';
 
 const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
   const { user } = useAuth();
@@ -33,7 +34,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
     setDispenseError('');
 
     try {
-      const response = await fetch(`/api/pharmacy/dispense/${prescriptionId}`,
+      const response = await axiosInstance.post(`/api/pharmacy/dispense/${prescriptionId}`,
         {
           method: 'POST',
           headers: {

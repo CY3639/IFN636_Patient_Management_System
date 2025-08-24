@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import axiosInstance from '../axiosConfig';
 
 const DispenseHistory = () => {
   const { user } = useAuth();
@@ -13,27 +14,19 @@ const DispenseHistory = () => {
       const fetchAllDispenseHistory = async () => {
         setLoading(true);
         try {
-          const response = await fetch(`/api/pharmacy/dispense-history`, {
-              headers: {
-                'Authorization': `Bearer ${user.token}`
-              }
+          const response = await axiosInstance.get('/api/pharmacy/dispense-history', {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
             }
-          );
+          });
           
-          if (response.ok) {
-            const data = await response.json();
-            setPrescriptions(Array.isArray(data) ? data : []);
-          } else {
-            console.error('Error fetching dispense history');
-            setPrescriptions([]);
-          }
+          setPrescriptions(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
-          console.error('Error fetching history:', error);
+          console.error('Error fetching dispense history', error);
           setPrescriptions([]);
         }
         setLoading(false);
       };
-
       fetchAllDispenseHistory();
     }
   }, [user?.token]);
@@ -52,48 +45,37 @@ const DispenseHistory = () => {
 
   const handleUpdate = async (prescriptionId, logId) => {
     try {
-      const response = await fetch(`/api/pharmacy/dispense/${prescriptionId}/log/${logId}`,{
-          method: 'PUT',
+      await axiosInstance.put(
+        `/api/pharmacy/dispense/${prescriptionId}/log/${logId}`, 
+        editFormData, 
+        {
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.token}`
-          },
-          body: JSON.stringify(editFormData)
+          }
         }
       );
 
-      if (response.ok) {
-        setLoading(true);
-        try {
-          const refreshResponse = await fetch(`/api/pharmacy/dispense-history`,{
-              headers: {
-                'Authorization': `Bearer ${user.token}`
-              }
-            }
-          );
-          
-          if (refreshResponse.ok) {
-            const data = await refreshResponse.json();
-            setPrescriptions(Array.isArray(data) ? data : []);
-          } else {
-            setPrescriptions([]);
+      setLoading(true);
+      try {
+        const refreshResponse = await axiosInstance.get('/api/pharmacy/dispense-history', {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
           }
-        } catch (error) {
-          console.error('Error refreshing:', error);
-        }
-        setLoading(false);
+        });
         
-        setEditingLog(null);
-        setEditFormData({});
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Failed to update');
+        setPrescriptions(Array.isArray(refreshResponse.data) ? refreshResponse.data : []);
+      } catch (error) {
+        console.error('Error refreshing:', error);
       }
+      setLoading(false);
+      setEditingLog(null);
+      setEditFormData({});
     } catch (error) {
       console.error('Error updating log:', error);
-      alert('Error updating log');
+      const errorMessage = error.response?.data?.message || 'Error updating log';
+      alert(errorMessage);
     }
-  };
+  }; 
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString();
