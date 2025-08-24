@@ -13,9 +13,7 @@ const DispenseHistory = () => {
       const fetchAllDispenseHistory = async () => {
         setLoading(true);
         try {
-          const response = await fetch(
-            `http://localhost:5001/api/pharmacy/dispense-history`,
-            {
+          const response = await fetch(`/api/pharmacy/dispense-history`, {
               headers: {
                 'Authorization': `Bearer ${user.token}`
               }
@@ -54,9 +52,7 @@ const DispenseHistory = () => {
 
   const handleUpdate = async (prescriptionId, logId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5001/api/pharmacy/dispense/${prescriptionId}/log/${logId}`,
-        {
+      const response = await fetch(`/api/pharmacy/dispense/${prescriptionId}/log/${logId}`,{
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -69,9 +65,7 @@ const DispenseHistory = () => {
       if (response.ok) {
         setLoading(true);
         try {
-          const refreshResponse = await fetch(
-            `http://localhost:5001/api/pharmacy/dispense-history`,
-            {
+          const refreshResponse = await fetch(`/api/pharmacy/dispense-history`,{
               headers: {
                 'Authorization': `Bearer ${user.token}`
               }
