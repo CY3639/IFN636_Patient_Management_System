@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PharmacyPrescriptionList from '../components/PharmacyPrescriptionList';
 import DispenseHistory from '../components/DispenseHistory';
+import axiosInstance from '../axiosConfig';
 
 const PharmacyDashboard = () => {
   const { user } = useAuth();
@@ -17,24 +18,18 @@ const PharmacyDashboard = () => {
   
     setLoading(true);
     try {
-      const response = await fetch(`/api/pharmacy${endpoint}`, {
-        headers: {
+      const response = await axiosInstance.get(`/api/pharmacy${endpoint}`, {
+        headers: { 
           'Authorization': `Bearer ${user.token}`
         }
       });
       
-      if (response.ok) {
-        const data = await response.json();
-        setPrescriptions(data);
-      } else {
-        console.error('Failed to fetch prescriptions');
+        setPrescriptions(response.data);
+      } catch (error) {
+        console.error('Failed to fetch prescriptions', error);
         setPrescriptions([]);
       }
-    } catch (error) {
-      console.error('Error fetching prescriptions:', error);
-      setPrescriptions([]);
-    }
-    setLoading(false);
+      setLoading(false);
   }, [user?.token]);
 
   useEffect(() => {
