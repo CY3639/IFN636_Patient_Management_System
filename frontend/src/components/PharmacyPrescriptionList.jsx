@@ -34,27 +34,22 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
     setDispenseError('');
 
     try {
-      const response = await axiosInstance.post(`/api/pharmacy/dispense/${prescriptionId}`,
+      const response = await axiosInstance.post(`/api/pharmacy/dispense/${prescriptionId}`, dispenseForm,
         {
-          method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.token}`
           },
-          body: JSON.stringify(dispenseForm)
         }
       );
 
-      if (response.ok) {
-        setDispensingPrescription(null);
-        onDispenseUpdate();
-      } else {
-        const data = await response.json();
-        setDispenseError(data.message || 'Failed to dispense prescription');
-      }
-    } catch (err) {
-      setDispenseError('Network error. Please try again.');
-    } finally {
+      setDispensingPrescription(null);
+      onDispenseUpdate();
+
+      } catch (error) {
+        console.error('Dispense error:', error);
+        const errorMessage = error.response?.data?.message || 'Failed to dispense prescription';
+        setDispenseError(errorMessage);
+      } finally {
       setDispensing(false);
     }
   };
