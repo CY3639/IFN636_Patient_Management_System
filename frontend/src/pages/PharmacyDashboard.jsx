@@ -17,7 +17,7 @@ const PharmacyDashboard = () => {
   
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/api/pharmacy${endpoint}`, {
+      const response = await fetch(`/api/pharmacy${endpoint}`, {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }

@@ -33,8 +33,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
     setDispenseError('');
 
     try {
-      const response = await fetch(
-        `http://localhost:5001/api/pharmacy/dispense/${prescriptionId}`,
+      const response = await fetch(`/api/pharmacy/dispense/${prescriptionId}`,
         {
           method: 'POST',
           headers: {
