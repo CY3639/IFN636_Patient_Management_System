@@ -42,7 +42,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
         }
       );
 
-      setDispensingPrescription(null);
+      setDispensingPrescription(response.data || null);
       onDispenseUpdate();
 
       } catch (error) {
