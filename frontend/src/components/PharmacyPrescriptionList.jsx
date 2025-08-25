@@ -90,6 +90,9 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
                     <span className="font-medium">Email:</span> {prescription.patientEmail}
                   </div>
                   <div>
+                    <span className="font-medium">Medication Name:</span> {prescription.medicationName}
+                  </div>
+                  <div>
                     <span className="font-medium">Strength:</span> {prescription.medicationStrength}
                   </div>
                   <div>
