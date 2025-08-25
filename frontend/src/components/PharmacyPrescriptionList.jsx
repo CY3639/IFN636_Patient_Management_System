@@ -78,7 +78,7 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-yellow-100 text-yellow-800'
                   }`}>
-                    {prescription.isDispensed ? 'Dispensed' : 'Pending'}
+                    {prescription.isDispensed ? '✓ Dispensed' : '⏳ Pending'}
                   </span>
                 </div>
                 
@@ -178,8 +178,8 @@ const PharmacyPrescriptionList = ({ prescriptions, onDispenseUpdate }) => {
                       onChange={(e) => setDispenseForm({...dispenseForm, status: e.target.value})}
                       className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="Dispensed">Dispensed</option>
-                      <option value="pending">Pending</option>
+                      <option value="Dispensed"> ✓ Dispensed</option>
+                      <option value="pending"> ⏳ Pending</option>
                     </select>
                   </div>
                 </div>
